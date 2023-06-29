@@ -2,76 +2,101 @@
   <div class="container">
     <h1>New Happy Hour Deal</h1>
 
-    <form @submit.prevent="addDeal" class="mb-3">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Form -->
+        <form @submit.prevent="addDeal" class="mb-3">
+          <!-- Form fields -->
+          <!-- Spot -->
 
-      <div class="row">
-        <div class="col-md-4">
           <div class="mb-3">
-            <label for="spotInput" class="form-label">Spot</label>
-            <input v-model="spot" id="spotInput" class="form-control" type="text">
+                <label for="spotInput" class="form-label">Location</label>
+                <input v-model="spot" id="spotInput" class="form-control" type="text">
+              </div>
+          <!-- Special and Tags -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+            <label for="specialInput" class="form-label">Special</label>
+            <textarea v-model="special" id="specialInput" class="form-control" type="text"></textarea>
           </div>
-        </div>
-        <div class="col-md-4">
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="tagsSelect" class="form-label">Tags</label>
+                <select v-model="selectedTags" id="tagsSelect" class="form-select" multiple>
+                  <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Time and End Time -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="startSelect" class="form-label">Start Time</label>
+                <select v-model="start" id="startSelect" class="form-select">
+                  <option v-for="start in starts" :key="start.value" :value="start.value">{{ start.text }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="endSelect" class="form-label">End Time</label>
+                <select v-model="end" id="endSelect" class="form-select">
+                  <option v-for="end in ends" :key="end.value" :value="end.value">{{ end.text }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Days -->
           <div class="mb-3">
-            <label for="startSelect" class="form-label">Start Time</label>
-            <select v-model="start" id="startSelect" class="form-select">
-              <option v-for="start in starts" :key="start.value" :value="start.value">{{ start.text }}</option>
+            <label for="daysSelect" class="form-label">Days</label>
+            <select v-model="selectedDays" id="daysSelect" class="form-select" multiple>
+              <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
             </select>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="mb-3">
-            <label for="endSelect" class="form-label">End Time</label>
-            <select v-model="end" id="endSelect" class="form-select">
-              <option v-for="end in ends" :key="end.value" :value="end.value" >{{ end.text }}</option>
-            </select>
-          </div>
-        </div>
+          </div>         
+
+          <button type="submit" class="btn btn-primary">Add Deal</button>
+        </form>
       </div>
 
-      <div class="mb-3">
-        <label for="daysSelect" class="form-label">Days</label>
-        <select v-model="selectedDays" id="daysSelect" class="form-select" multiple>
-          <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-        </select>
+      <div class="col-md-6">
+        <!-- Table -->
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th>Spot</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Days</th>
+              <th>Special</th>
+              <th>Tags</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="deal in deals" :key="deal.id">
+              <td>{{ deal.spot }}</td>
+              <td>{{ deal.start }}</td>
+              <td>{{ deal.end }}</td>
+              <td>{{ deal.selectedDays }}</td>
+              <td>{{ deal.special }}</td>
+              <td>{{ deal.selectedTags }}</td>
+              <td><button @click="removeDeal(deal)" class="btn btn-danger">X</button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <div class="mb-3">
-        <label for="specialInput" class="form-label">Special</label>
-        <input v-model="special" id="specialInput" class="form-control" type="text">
-      </div>
-
-      <div class="mb-3">
-        <label for="tagsSelect" class="form-label">Tags</label>
-        <select v-model="selectedTags" id="tagsSelect" class="form-select" multiple>
-          <option v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Add Deal</button>
-    </form>
-
-    <ul class="list-group">
-      <li class="list-group-item" v-for="deal in deals" :key="deal.id">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            {{ deal.text }} || {{ deal.start }} || {{ deal.end }}|| {{deal.selectedDays}} || {{ deal.special }} || {{ deal.selectedTags }} 
-          </div>
-          <button @click="removeDeal(deal)" class="btn btn-danger">X</button>
-        </div>
-      </li>
-    </ul>
+    </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
-// let module = require('../src/utils/timeUtil.js');
 
-// let starts = module.starts;
-
-// starts.map(item => console.log(item +1))
-
+// initialize our fields
 let id = 0
 const spot = ref('')
 const start = ref('')
@@ -87,8 +112,10 @@ const deals = ref([])
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const tags = ['Appetizers','Beer','Wine','Cocktails','Wings','Cajun','Asian','Mexican','Shots',
               'American','Burgers','BBQ','Thai','Vietnamese','Sushi','Italian','Sandwiches','Pizza',
-            'Breakfast','Brunch']
+            'Breakfast','Brunch','Caribbean']
 
+
+//gives us date lists
 starts.value.push({ text: 'Open', value: 'Open' });
 const startTime = new Date();
 startTime.setHours(4, 0, 0, 0);
@@ -113,8 +140,9 @@ function formatTime(date) {
   });
 }
 
+//creates array of target data
 function addDeal() {
-  deals.value.push({ id: id++, text: spot.value, start: start.value, end: end.value, special: special.value, 
+  deals.value.push({ id: id++, spot: spot.value, start: start.value, end: end.value, special: special.value, 
                   selectedTags: selectedTags.value, selectedDays: selectedDays.value })
   spot.value = ''
   start.value = ''
@@ -124,6 +152,7 @@ function addDeal() {
   selectedDays.value = []
 }
 
+//removes line from array
 function removeDeal(deal) {
   deals.value = deals.value.filter((d) => d !== deal)
 }
@@ -133,8 +162,12 @@ function removeDeal(deal) {
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 .container {
-  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
+textarea {
+        display: flex;
+
+        /* resize: none; /* disable resizing */
+      } 
 </style>
