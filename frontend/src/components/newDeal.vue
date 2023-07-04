@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-6">
         <!-- Form -->
-        <form @submit.prevent="addDeal" class="mb-3">
+        <form @submit.prevent="postDeal" class="mb-3">
           <!-- Form fields -->
           <!-- Spot -->
 
@@ -95,6 +95,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import DataService from "../dataService";
 
 // initialize our fields
 let id = 0
@@ -108,6 +109,8 @@ const selectedDays = ref([])
 const selectedTags = ref([])
 
 const deals = ref([])
+var data = ref([])
+
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 const tags = ['Appetizers','Beer','Wine','Cocktails','Wings','Cajun','Asian','Mexican','Shots',
@@ -141,9 +144,30 @@ function formatTime(date) {
 }
 
 //creates array of target data
-function addDeal() {
-  deals.value.push({ id: id++, spot: spot.value, start: start.value, end: end.value, special: special.value, 
-                  selectedTags: selectedTags.value, selectedDays: selectedDays.value })
+// function addDeal() {
+//   deals.value.push({ id: id++, spot: spot.value, start: start.value, end: end.value, special: special.value, 
+//                   selectedTags: selectedTags.value, selectedDays: selectedDays.value })
+//   spot.value = ''
+//   start.value = ''
+//   end.value = ''
+//   special.value = ''
+//   selectedTags.value = []
+//   selectedDays.value = []
+// }
+
+function postDeal() {
+  data = { id: id++, spot: spot.value, starts: start.value, ends: end.value, special: special.value, 
+                  tags: selectedTags.value, days: selectedDays.value }
+
+  DataService.create(data)
+          .then(response => {
+          //   this.tutorial.id = response.data.id;
+             console.log(response.data);
+          //   this.submitted = true;
+           })
+          .catch(e => {
+            console.log(e);
+          });
   spot.value = ''
   start.value = ''
   end.value = ''
