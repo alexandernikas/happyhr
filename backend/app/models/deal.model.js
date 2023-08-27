@@ -24,7 +24,13 @@ module.exports = mongoose => {
     days: {
         type: [String],
         required: true,
-      }
+      },
+
+    published: {
+        type: Boolean,
+        required: true,
+    },
+    
 
  });
 
