@@ -1,35 +1,43 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const Router = require("./routes")
 const cors = require("cors");
+
 const app = express();
 
-app.use(express.json());
-
 var corsOptions = {
-    origin: "http://localhost:8080"
-  };
-  
+  origin: "http://localhost:8081"
+};
+
 app.use(cors(corsOptions));
 
-//const connectToMongo = async () => {
-    try {
-        mongoose.connect("mongodb://localhost:27017/DEV",{useNewUrlParser: true,  useUnifiedTopology: true });
-        console.log("Connected to Mongo Successfully!");
-      } catch (error) {
-        console.log(error);
-      }
-    //};
+// Parse requests of content-type - application/json
+app.use(express.json());
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-    console.log("Connected successfully");
+// Parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+const db = require("./app/models");
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connected to the database!");
+  })
+  .catch(err => {
+    console.log("Cannot connect to the database!", err);
+    process.exit();
+  });
+
+// Simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to my application." });
 });
 
-// ...
-app.use("",Router);
+require("./app/routes/deal.routes.js")(app);
 
-app.listen(3000, () => {
-  console.log("Server is running at port 3000");
+// Set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });

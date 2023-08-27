@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-
-const dealSchema = new mongoose.Schema({
+module.exports = mongoose => {
+  var schema = new mongoose.Schema({
     spot: {
         type: String,
         required: true,
@@ -29,7 +28,12 @@ const dealSchema = new mongoose.Schema({
 
  });
 
-const Deal = mongoose.model("Deal", dealSchema);
+  schema.method("toJSON", function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+  });
 
-module.exports = Deal;
-
+  const Deal = mongoose.model("deal", schema);
+  return Deal;
+};
