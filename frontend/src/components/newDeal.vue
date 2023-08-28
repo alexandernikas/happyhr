@@ -161,9 +161,9 @@ function postDeal() {
 
   DataService.create(data)
           .then(response => {
-          //   this.tutorial.id = response.data.id;
+             this.deal.id = response.data.id;
              console.log(response.data);
-          //   this.submitted = true;
+             this.submitted = true;
            })
           .catch(e => {
             console.log(e);

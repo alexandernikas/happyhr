@@ -25,8 +25,8 @@ class dealDataService {
     return http.delete(`/deals`);
   }
 
-  findByTitle(title) {
-    return http.get(`/deals?title=${title}`);
+  findBySpot(spot) {
+    return http.get(`/deals?spot=${spot}`);
   }
 }
 

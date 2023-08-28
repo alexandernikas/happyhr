@@ -1,20 +1,18 @@
-import { createWebHistory, createRouter } from "vue-router";
-import AddDeal from "@/components/AddDeal.vue";
-
+import { createRouter, createWebHistory } from 'vue-router';
+import AddDeal from './components/AddDeal.vue';
+import DealsList from './components/DealsList.vue';
+import Deal from './components/Deal.vue';
 
 
 const routes = [
-  {
-    path: "/add",
-    name: "add",
-    component: AddDeal
-  },
-
+  { path: '/deals', component: DealsList },
+  { path: '/add', component: AddDeal },
+  { path: '/deals/:id', component: Deal },
 ];
 
-const Router = createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-export default Router;
+export default router;

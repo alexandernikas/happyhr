@@ -12,13 +12,38 @@
     </nav>
 
     <div class="container mt-3">
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app"
+  name: "app",
 };
 </script>
+<!-- <template>
+      <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <div class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link to="/deals" class="nav-link">Happy Hour Deals</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/add" class="nav-link">Add</router-link>
+        </li>
+      </div>
+    </nav>
+  <div>
+    <DealsList />
+  </div>
+</template>
+
+<script>
+import DealsList from "@/components/DealsList.vue";
+
+export default {
+  components: {
+    DealsList
+  }
+};
+</script> -->

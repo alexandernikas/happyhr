@@ -1,5 +1,5 @@
 const db = require("../models");
-const Deal = db.tutorials;
+const Deal = db.deals;
 
 // Create and Save a new Deal
 exports.create = (req, res) => {
@@ -68,7 +68,7 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Update a Tutorial by the id in the request
+// Update a currentDeal by the id in the request
 exports.update = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
@@ -82,7 +82,7 @@ exports.update = (req, res) => {
         .then(data => {
             if (!data) {
                 res.status(404).send({
-                    message: `Cannot update Deal with id=${id}. Maybe Tutorial was not found!`
+                    message: `Cannot update Deal with id=${id}. Maybe currentDeal was not found!`
                 });
             } else res.send({ message: "Deal was updated successfully." });
         })
@@ -97,11 +97,11 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Tutorial.findByIdAndRemove(id, { useFindAndModify: false })
+    Deal.findByIdAndRemove(id, { useFindAndModify: false })
         .then(data => {
             if (!data) {
                 res.status(404).send({
-                    message: `Cannot delete Deal with id=${id}. Maybe Tutorial was not found!`
+                    message: `Cannot delete Deal with id=${id}. Maybe currentDeal was not found!`
                 });
             } else {
                 res.send({
@@ -118,7 +118,7 @@ exports.delete = (req, res) => {
 
 // Delete all Deal from the database.
 exports.deleteAll = (req, res) => {
-    Tutorial.deleteMany({})
+    Deal.deleteMany({})
         .then(data => {
             res.send({
                 message: `${data.deletedCount} Deals were deleted successfully!`
