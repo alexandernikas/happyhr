@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <h4>Deals List</h4>
+      <h4>Locations</h4>
       <ul class="list-group">
         <li class="list-group-item"
           :class="{ active: index == currentIndex }"
@@ -29,6 +29,13 @@
       <button class="m-3 btn btn-sm btn-danger" @click="removeAllDeals">
         Remove All
       </button>
+
+      <a v-if="currentDeal" class="btn btn-warning"
+          :href="'/deals/' + currentDeal.id"
+        >
+          Edit Deal
+        </a>
+
     </div>
     <div class="col-md-6">
       <div v-if="currentDeal">
@@ -40,8 +47,12 @@
           <label><strong>Special:</strong></label> {{ currentDeal.special }}
         </div>
         <div>
-          <label><strong>Tags:</strong></label> {{ currentDeal.tags }}
-        </div>
+      <label><strong>Tags:</strong></label>
+      <div class="tag-buttons">
+        <button v-for="(tag, index) in currentDeal.tags" :key="index" class="badge badge-info">{{ tag }}</button>
+      </div>
+    </div>
+
         <div>
           <label><strong>Starts:</strong></label> {{ currentDeal.starts }}
         </div>
@@ -49,17 +60,16 @@
           <label><strong>Ends:</strong></label> {{ currentDeal.ends }}
         </div>
         <div>
-          <label><strong>Days:</strong></label> {{ currentDeal.days }}
-        </div>
+      <label><strong>Days:</strong></label>
+      <div class="day-buttons">
+        <button v-for="(day, index) in currentDeal.days" :key="index" class="badge badge-primary">{{ day }}</button>
+      </div>
+    </div>
         <div>
           <label><strong>Published:</strong></label> {{ currentDeal.published ? "Published" : "Pending" }}
         </div>
 
-        <a class="badge badge-warning"
-          :href="'/deals/' + currentDeal.id"
-        >
-          Edit
-        </a>
+
       </div>
       <div v-else>
         <br />

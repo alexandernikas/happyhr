@@ -1,4 +1,5 @@
 <template>
+  <div v-if="!removed">
   <div v-if="currentDeal" class="edit-form">
     <h4>Deal</h4>
     <form>
@@ -81,6 +82,16 @@
     <br />
     <p>Please click on a Deal...</p>
   </div>
+</div>
+<div v-else>
+    <br />
+    <p>Deal removed</p>
+    <a class="badge badge-warning"
+          :href="'/deals/' "
+        >
+          Home
+        </a>
+  </div>
 </template>
 
 <script>
@@ -92,7 +103,8 @@ export default {
   data() {
     return {
       currentDeal: null,
-      message: ''
+      message: '',
+      removed: false
     };
   },
   methods: {
@@ -133,7 +145,9 @@ export default {
       dealDataService.update(this.currentDeal.id, this.currentDeal)
         .then(response => {
           console.log(response.data);
-          this.message = 'The deal was updated successfully!';
+          this.message = 'Deal updated successfully!';
+          setTimeout(() => this.$router.push("/deals/"), 3000);
+          //this.$router.push("/deals/");
         })
         .catch(e => {
           console.log(e);
@@ -144,7 +158,8 @@ export default {
       dealDataService.delete(this.currentDeal.id)
         .then(response => {
           console.log(response.data);
-          this.$router.push({ name: "deals" });
+          this.removed = true
+          //this.$router.push("/deals/");
         })
         .catch(e => {
           console.log(e);

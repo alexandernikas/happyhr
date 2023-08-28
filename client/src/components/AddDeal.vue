@@ -1,11 +1,14 @@
 <template>
+
   <div class="submit-form">
     <div v-if="!submitted">
+      <h4>Add Deal</h4>
+      <hr>
       <div class="form-group">
         <label for="spot">Spot</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control same-width"
           id="spot"
           required
           v-model="deal.spot"
@@ -15,69 +18,66 @@
 
       <div class="form-group">
         <label for="special">Special</label>
-        <input
-          class="form-control"
+        <textarea
+          type="text"
+          class="form-control same-width"
           id="special"
           required
           v-model="deal.special"
           name="special"
-        />
+        ></textarea>
       </div>
 
       <label for="tags">Tags</label>
       <div class="form-group">
-      <select
-        class="form-select"
-        multiple
-        id="tags"
-        required
-        v-model="deal.tags"
-        name="tags"
-      >
+        <select
+          class="form-select same-width"
+          multiple
+          id="tags"
+          required
+          v-model="deal.tags"
+          name="tags"
+        >
           <option v-for="(tag, index) in tagOptions" :key="index" :value="tag">{{ tag }}</option>
         </select>
       </div>
 
       <label for="starts">Starts</label>
-        <div class="form-group">
-      <select
-        class="form-select"
-        
-        id="starts"
-        required
-        v-model="deal.starts"
-        name="starts"
-      >
+      <div class="form-group">
+        <select
+          class="form-select same-width"
+          id="starts"
+          required
+          v-model="deal.starts"
+          name="starts"
+        >
           <option v-for="(start, index) in startOptions" :key="index" :value="start">{{ start }}</option>
         </select>
       </div>
 
       <label for="ends">Ends</label>
       <div class="form-group">
-      <select
-        class="form-select"
-        
-        id="ends"
-        required
-        v-model="deal.ends"
-        name="ends"
-      >
+        <select
+          class="form-select same-width"
+          id="ends"
+          required
+          v-model="deal.ends"
+          name="ends"
+        >
           <option v-for="text in endOptions" :key="text" :value="text">{{ text }}</option>
         </select>
       </div>
 
-
       <label for="days">Days</label>
-      <div class="form-group">      
+      <div class="form-group">
         <select
-        class="form-select"
-        multiple
-        id="days"
-        required
-        v-model="deal.days"
-        name="days"
-      >
-          
+          class="form-select same-width"
+          multiple
+          id="days"
+          required
+          v-model="deal.days"
+          name="days"
+        >
           <option v-for="(day, index) in dayOptions" :key="index" :value="day">{{ day }}</option>
         </select>
       </div>
@@ -87,10 +87,16 @@
 
     <div v-else>
       <h4>Deal Submitted!</h4>
-      <button class="btn btn-success" @click="newDeal">Add</button>
+      <button class="btn btn-success" @click="newDeal">Add another</button>
+      <a class="btn btn-danger"
+          :href="'/deals/' "
+        >
+          Home
+        </a>
     </div>
   </div>
 </template>
+
 
 
 <script>
@@ -219,8 +225,11 @@ export default {
 
 
 <style>
+.same-width {
+  width: 100%; /* Set the desired width for the input/select elements */
+}
 .submit-form {
-  max-width: 300px;
+  max-width: 450px;
   margin: auto;
 }
 </style>
