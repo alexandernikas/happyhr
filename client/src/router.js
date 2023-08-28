@@ -10,7 +10,7 @@ const routes = [
   { path: '/deals/:id', component: Deal },
 ];
 
-const router = createRouter({
+var router = createRouter({
   history: createWebHistory(),
   routes,
 });

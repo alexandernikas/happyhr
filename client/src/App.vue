@@ -1,9 +1,10 @@
 <template>
-  <div id="app">
+  <div id="deals_app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
+      
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link to="/deals" class="nav-link">Happy Hour Deals</router-link>
+          <router-link to="/deals" class="nav-link">Deals</router-link>
         </li>
         <li class="nav-item">
           <router-link to="/add" class="nav-link">Add</router-link>
@@ -12,38 +13,28 @@
     </nav>
 
     <div class="container mt-3">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app",
+  name: "deals_app"
 };
 </script>
 <!-- <template>
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/deals" class="nav-link">Happy Hour Deals</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/add" class="nav-link">Add</router-link>
-        </li>
-      </div>
-    </nav>
   <div>
-    <DealsList />
+    <PostList />
   </div>
 </template>
 
 <script>
-import DealsList from "@/components/DealsList.vue";
+import PostList from "@/components/DealsList.vue"; // Replace with the actual path
 
 export default {
   components: {
-    DealsList
+    PostList
   }
 };
 </script> -->
