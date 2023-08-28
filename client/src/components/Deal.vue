@@ -16,6 +16,36 @@
       </div>
 
       <div class="form-group">
+        <label for="tags">Tags</label>
+        <input type="text" class="form-control" id="tags"
+          v-model="currentDeal.tags"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="starts">Starts</label>
+        <input type="text" class="form-control" id="starts"
+          v-model="currentDeal.starts"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="ends">Ends</label>
+        <input type="text" class="form-control" id="ends"
+          v-model="currentDeal.ends"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="days">Days</label>
+        <input type="text" class="form-control" id="days"
+          v-model="currentDeal.days"
+        />
+      </div>
+
+      
+
+      <div class="form-group">
         <label><strong>Status:</strong></label>
         {{ currentDeal.published ? "Published" : "Pending" }}
       </div>
@@ -80,12 +110,12 @@ export default {
     updatePublished(status) {
       var data = {
         id: this.currentDeal.id,
-        spot: this.deal.spot,
-        special: this.deal.special,
-        tags: this.deal.tags,
-        starts: this.deal.starts,
-        ends: this.deal.ends,
-        days: this.deal.days,
+        spot: this.currentDeal.spot,
+        special: this.currentDeal.special,
+        tags: this.currentDeal.tags,
+        starts: this.currentDeal.starts,
+        ends: this.currentDeal.ends,
+        days: this.currentDeal.days,
         published: status
       };
 
