@@ -24,48 +24,62 @@
         />
       </div>
 
+      <label for="tags">Tags</label>
       <div class="form-group">
-        <label for="tags">Tags</label>
-        <input
-          class="form-control"
-          id="tags"
-          required
-          v-model="deal.tags"
-          name="tags"
-        />
+      <select
+        class="form-select"
+        multiple
+        id="tags"
+        required
+        v-model="deal.tags"
+        name="tags"
+      >
+          <option v-for="(tag, index) in tagOptions" :key="index" :value="tag">{{ tag }}</option>
+        </select>
       </div>
 
-      <div class="form-group">
-        <label for="starts">Starts</label>
-        <input
-          class="form-control"
-          id="starts"
-          required
-          v-model="deal.starts"
-          name="starts"
-        />
+      <label for="starts">Starts</label>
+        <div class="form-group">
+      <select
+        class="form-select"
+        
+        id="starts"
+        required
+        v-model="deal.starts"
+        name="starts"
+      >
+          <option v-for="(start, index) in startOptions" :key="index" :value="start">{{ start }}</option>
+        </select>
       </div>
 
+      <label for="ends">Ends</label>
       <div class="form-group">
-        <label for="ends">Ends</label>
-        <input
-          class="form-control"
-          id="ends"
-          required
-          v-model="deal.ends"
-          name="ends"
-        />
+      <select
+        class="form-select"
+        
+        id="ends"
+        required
+        v-model="deal.ends"
+        name="ends"
+      >
+          <option v-for="text in endOptions" :key="text" :value="text">{{ text }}</option>
+        </select>
       </div>
 
-      <div class="form-group">
-        <label for="days">Days</label>
-        <input
-          class="form-control"
-          id="days"
-          required
-          v-model="deal.days"
-          name="days"
-        />
+
+      <label for="days">Days</label>
+      <div class="form-group">      
+        <select
+        class="form-select"
+        multiple
+        id="days"
+        required
+        v-model="deal.days"
+        name="days"
+      >
+          
+          <option v-for="(day, index) in dayOptions" :key="index" :value="day">{{ day }}</option>
+        </select>
       </div>
 
       <button @click="saveDeal" class="btn btn-success">Submit</button>
@@ -77,6 +91,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import dealDataService from "../dataServices/DataService";
@@ -93,23 +108,54 @@ export default {
         starts: "",
         ends: "",
         days: "",
-        published: false
+        published: false,
       },
-      submitted: false
+      tagOptions: ['Appetizers',
+                  'Beer',
+                  'Wine',
+                  'Cocktails',
+                  'Wings',
+                  'Cajun',
+                  'Asian',
+                  'Mexican',
+                  'Shots',
+                  'American',
+                  'Burgers',
+                  'BBQ',
+                  'Thai',
+                  'Vietnamese',
+                  'Sushi',
+                  'Italian',
+                  'Sandwiches',
+                  'Pizza',
+                  'Breakfast',
+                  'Brunch',
+                  'Caribbean'],
+      dayOptions: ['Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday'],
+      startOptions: [],
+      endOptions: [],
+      submitted: false,
     };
   },
   methods: {
     saveDeal() {
-      var data = {
+      const data = {
         spot: this.deal.spot,
         special: this.deal.special,
         tags: this.deal.tags,
         starts: this.deal.starts,
         ends: this.deal.ends,
-        days: this.deal.days
+        days: this.deal.days,
       };
 
-      dealDataService.create(data)
+      dealDataService
+        .create(data)
         .then(response => {
           this.deal.id = response.data.id;
           console.log(response.data);
@@ -119,14 +165,58 @@ export default {
           console.log(e);
         });
     },
-    
     newDeal() {
       this.submitted = false;
       this.deal = {};
-    }
-  }
+    },
+    formatTime(date) {
+      return date.toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      });
+    },
+  },
+  computed: {
+    startOptionsList() {
+      const startTime = new Date();
+      startTime.setHours(4, 0, 0, 0);
+      const endTime = new Date();
+      endTime.setHours(23, 30, 0, 0);
+      const timeIncrement = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+      const options = [];
+      options.push('Open')
+      while (startTime <= endTime) {
+        options.push(this.formatTime(startTime));
+        startTime.setTime(startTime.getTime() + timeIncrement);
+      }
+
+      return options;
+    },
+    endOptionsList() {
+      const startTime = new Date();
+      startTime.setHours(4, 0, 0, 0);
+      const endTime = new Date();
+      endTime.setHours(23, 30, 0, 0);
+      const timeIncrement = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+      const options = [];
+      while (startTime <= endTime) {
+        options.push(this.formatTime(startTime));
+        startTime.setTime(startTime.getTime() + timeIncrement);
+      }
+      options.push('Close')
+      return options;
+    },
+  },
+  created() {
+    this.startOptions = this.startOptionsList;
+    this.endOptions = this.endOptionsList;
+  },
 };
 </script>
+
 
 <style>
 .submit-form {
