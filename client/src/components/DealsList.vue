@@ -1,6 +1,6 @@
 <template>
   <div class="list row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search by spot"
           v-model="spot"/>
@@ -13,18 +13,23 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <h4>Locations</h4>
-      <ul class="list-group">
-        <li class="list-group-item"
-          :class="{ active: index == currentIndex }"
+    <div class="col-md-6" >
+      <div id="table-scroll">
+        <h4>Locations</h4>
+
+    <table class="table table-hover" >
+      <tbody>
+        <tr
           v-for="(deal, index) in deals"
           :key="index"
+          :class="{ active: index == currentIndex }"
           @click="setActiveDeals(deal, index)"
         >
-          {{ deal.spot }}
-        </li>
-      </ul>
+          <td>{{ deal.spot }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
       <button class="m-3 btn btn-sm btn-danger" @click="removeAllDeals">
         Remove All
@@ -149,4 +154,12 @@ export default {
   max-width: 750px;
   margin: auto;
 }
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #99ccff;
+}
+#table-scroll {
+  max-width: 750px;
+  overflow:auto; 
+}
+
 </style>

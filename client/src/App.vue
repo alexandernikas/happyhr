@@ -23,18 +23,3 @@ export default {
   name: "deals_app"
 };
 </script>
-<!-- <template>
-  <div>
-    <PostList />
-  </div>
-</template>
-
-<script>
-import PostList from "@/components/DealsList.vue"; // Replace with the actual path
-
-export default {
-  components: {
-    PostList
-  }
-};
-</script> -->

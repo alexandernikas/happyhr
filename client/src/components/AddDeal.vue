@@ -229,7 +229,7 @@ export default {
   width: 100%; /* Set the desired width for the input/select elements */
 }
 .submit-form {
-  max-width: 450px;
+  max-width: 600px;
   margin: auto;
 }
 </style>
